@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LivyFit | Weight-Loss & Longevity Programs for Fitness Communities</title>
+  <meta name="description" content="LivyFit helps fitness communities offer medically guided weight-loss and longevity programs through a simple partner model." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bone: #f5efe5;
+      --paper: #fffaf2;
+      --sand: #e8dac8;
+      --forest: #173f35;
+      --forest-2: #235f4f;
+      --sage: #d8e7d6;
+      --sage-2: #eef6ed;
+      --clay: #b97856;
+      --gold: #d6a650;
+      --ink: #14201c;
+      --muted: #66746f;
+      --line: rgba(20, 32, 28, 0.12);
+      --white: #ffffff;
+      --shadow: 0 28px 90px rgba(23, 63, 53, 0.13);
+      --radius-xl: 34px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 8%, rgba(214, 166, 80, 0.22), transparent 28%),
+        radial-gradient(circle at 90% 4%, rgba(35, 95, 79, 0.16), transparent 30%),
+        var(--bone);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .grain {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.28;
+      z-index: 1;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.18'/%3E%3C/svg%3E");
+    }
+
+    .page { position: relative; z-index: 2; overflow: hidden; }
+    .container { width: min(1140px, calc(100% - 42px)); margin: 0 auto; }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      border-bottom: 1px solid rgba(20, 32, 28, 0.08);
+      background: rgba(245, 239, 229, 0.84);
+      backdrop-filter: blur(18px);
+    }
+
+    .nav-inner {
+      height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      font-size: 1.18rem;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 14px;
+      background: var(--forest);
+      color: var(--paper);
+      display: grid;
+      place-items: center;
+      font-family: "DM Serif Display", serif;
+      font-size: 1.15rem;
+      box-shadow: 0 12px 28px rgba(23, 63, 53, 0.18);
+    }
+
+    .brand small {
+      display: block;
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: -4px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    .nav-links a { transition: color 0.2s ease; }
+    .nav-links a:hover { color: var(--forest); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border-radius: 999px;
+      padding: 14px 21px;
+      border: 1px solid transparent;
+      font-weight: 800;
+      font-size: 0.94rem;
+      transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: var(--forest);
+      color: var(--paper);
+      box-shadow: 0 14px 28px rgba(23, 63, 53, 0.18);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      background: #0f3028;
+      box-shadow: 0 18px 38px rgba(23, 63, 53, 0.23);
+    }
+
+    .btn-light {
+      background: rgba(255, 250, 242, 0.78);
+      color: var(--forest);
+      border-color: rgba(20, 32, 28, 0.1);
+    }
+
+    .btn-light:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(23, 63, 53, 0.1); }
+
+    .hero { padding: 92px 0 84px; position: relative; }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 520px;
+      height: 520px;
+      border-radius: 999px;
+      background: rgba(216, 231, 214, 0.58);
+      filter: blur(20px);
+      right: -230px;
+      top: 130px;
+      z-index: -1;
+      animation: floatOrb 9s ease-in-out infinite alternate;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 56px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 13px;
+      border-radius: 999px;
+      background: rgba(255, 250, 242, 0.7);
+      border: 1px solid rgba(20, 32, 28, 0.09);
+      color: var(--forest);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      font-weight: 900;
+      margin-bottom: 22px;
+      animation: riseIn 0.7s ease both;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+    }
+
+    h1 {
+      font-family: "DM Serif Display", serif;
+      font-weight: 400;
+      font-size: clamp(3.35rem, 7.2vw, 6.8rem);
+      line-height: 0.88;
+      letter-spacing: -0.045em;
+      max-width: 850px;
+      margin-bottom: 26px;
+      animation: riseIn 0.8s ease 0.08s both;
+    }
+
+    .accent-word { color: var(--forest-2); font-style: italic; }
+
+    .hero-copy {
+      color: var(--muted);
+      font-size: 1.16rem;
+      max-width: 650px;
+      margin-bottom: 32px;
+      animation: riseIn 0.8s ease 0.16s both;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 30px;
+      animation: riseIn 0.8s ease 0.24s both;
+    }
+
+    .under-note {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      font-weight: 700;
+      animation: riseIn 0.8s ease 0.32s both;
+    }
+
+    .under-note span {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .under-note span::before {
+      content: "";
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--clay);
+    }
+
+    .visual-card {
+      position: relative;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 250, 242, 0.76);
+      border: 1px solid rgba(20, 32, 28, 0.1);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      animation: cardFloat 5.5s ease-in-out infinite alternate, riseIn 0.9s ease 0.18s both;
+    }
+
+    .visual-inner {
+      min-height: 520px;
+      border-radius: 28px;
+      padding: 34px;
+      background: #1c4a3d;
+      color: var(--paper);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .visual-inner::before {
+      content: "";
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      border-radius: 999px;
+      background: rgba(214, 166, 80, 0.12);
+      right: -120px;
+      bottom: -120px;
+    }
+
+    .program-label {
+      display: inline-flex;
+      width: fit-content;
+      padding: 8px 12px;
+      border: 1px solid rgba(255, 250, 242, 0.18);
+      border-radius: 999px;
+      color: rgba(255, 250, 242, 0.78);
+      font-size: 0.78rem;
+      font-weight: 850;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 2;
+    }
+
+    .visual-title {
+      font-family: "DM Serif Display", serif;
+      font-size: 3.15rem;
+      line-height: 0.94;
+      letter-spacing: -0.04em;
+      max-width: 420px;
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .visual-copy {
+      color: rgba(255, 250, 242, 0.76);
+      max-width: 420px;
+      position: relative;
+      z-index: 2;
+      font-size: 1rem;
+    }
+
+    .mini-dashboard {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      padding-top: 36px;
+      color: rgba(255, 250, 242, 0.72);
+      font-size: 0.92rem;
+      font-weight: 750;
+      letter-spacing: 0.01em;
+    }
+
+    .mini-metric {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .mini-metric:not(:last-child)::after {
+      content: "·";
+      color: rgba(255, 250, 242, 0.45);
+      font-weight: 900;
+    }
+
+    .mini-metric strong {
+      display: none;
+    }
+
+    .mini-metric span {
+      color: rgba(255, 250, 242, 0.76);
+      font-size: 0.92rem;
+      font-weight: 750;
+    }
+
+    .section { padding: 88px 0; }
+
+    .section-head {
+      max-width: 760px;
+      margin-bottom: 40px;
+    }
+
+    .kicker {
+      color: var(--clay);
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      font-family: "DM Serif Display", serif;
+      font-weight: 400;
+      font-size: clamp(2.35rem, 4.9vw, 4.25rem);
+      line-height: 0.96;
+      letter-spacing: -0.04em;
+      margin-bottom: 16px;
+    }
+
+    .lead { color: var(--muted); font-size: 1.08rem; }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      background: rgba(255, 250, 242, 0.72);
+      border: 1px solid rgba(20, 32, 28, 0.1);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      min-height: 260px;
+      transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 22px 55px rgba(23, 63, 53, 0.11);
+      background: rgba(255, 250, 242, 0.94);
+    }
+
+    .card-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      background: var(--sage-2);
+      color: var(--forest);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      margin-bottom: 20px;
+      border: 1px solid rgba(20, 32, 28, 0.08);
+    }
+
+    .card h3 {
+      font-size: 1.22rem;
+      line-height: 1.2;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+    }
+
+    .card p { color: var(--muted); }
+
+    .story-band {
+      padding: 84px 0;
+      background: var(--forest);
+      color: var(--paper);
+      position: relative;
+    }
+
+    .story-band::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 12% 10%, rgba(214, 166, 80, 0.18), transparent 24%),
+        radial-gradient(circle at 82% 78%, rgba(216, 231, 214, 0.12), transparent 28%);
+      pointer-events: none;
+    }
+
+    .story-grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 54px;
+      align-items: center;
+    }
+
+    .story-box {
+      background: rgba(255, 250, 242, 0.08);
+      border: 1px solid rgba(255, 250, 242, 0.12);
+      border-radius: var(--radius-xl);
+      padding: 32px;
+    }
+
+    .story-box h2 { color: var(--paper); }
+    .story-box p { color: rgba(255, 250, 242, 0.72); }
+
+    .path {
+      display: grid;
+      gap: 14px;
+    }
+
+    .path-item {
+      display: grid;
+      grid-template-columns: 46px 1fr;
+      gap: 16px;
+      align-items: start;
+      padding: 20px;
+      background: rgba(255, 250, 242, 0.08);
+      border: 1px solid rgba(255, 250, 242, 0.11);
+      border-radius: 22px;
+      transition: transform 0.22s ease, background 0.22s ease;
+    }
+
+    .path-item:hover { transform: translateX(6px); background: rgba(255, 250, 242, 0.11); }
+
+    .path-num {
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      background: var(--paper);
+      color: var(--forest);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+    }
+
+    .path-item h3 {
+      font-size: 1.08rem;
+      margin-bottom: 4px;
+      letter-spacing: -0.02em;
+    }
+
+    .path-item p { color: rgba(255, 250, 242, 0.67); }
+
+    .pilot { padding: 94px 0; }
+
+    .pilot-card {
+      display: grid;
+      grid-template-columns: 1.02fr 0.98fr;
+      gap: 34px;
+      align-items: stretch;
+      background: rgba(255, 250, 242, 0.82);
+      border: 1px solid rgba(20, 32, 28, 0.1);
+      border-radius: var(--radius-xl);
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .pilot-copy {
+      padding: 32px;
+    }
+
+    .pilot-points {
+      display: grid;
+      gap: 13px;
+      margin-top: 26px;
+    }
+
+    .pilot-point {
+      display: flex;
+      gap: 12px;
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .pilot-point::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 99px;
+      background: var(--forest-2);
+      margin-top: 9px;
+      flex: 0 0 auto;
+    }
+
+    .form-card {
+      background: var(--forest);
+      color: var(--paper);
+      border-radius: 28px;
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .form-card::before {
+      content: "";
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      border-radius: 999px;
+      background: rgba(214, 166, 80, 0.14);
+      right: -100px;
+      top: -100px;
+    }
+
+    .form-card > * { position: relative; }
+
+    .form-card h3 {
+      font-family: "DM Serif Display", serif;
+      font-weight: 400;
+      font-size: 2.2rem;
+      line-height: 0.98;
+      letter-spacing: -0.04em;
+      margin-bottom: 12px;
+    }
+
+    .form-card p { color: rgba(255, 250, 242, 0.72); margin-bottom: 20px; }
+
+    .field { display: grid; gap: 7px; margin-bottom: 13px; }
+    .field label { font-size: 0.82rem; font-weight: 850; color: rgba(255, 250, 242, 0.72); }
+
+    .field input,
+    .field select {
+      width: 100%;
+      min-height: 48px;
+      border: 1px solid rgba(255, 250, 242, 0.17);
+      border-radius: 15px;
+      background: rgba(255, 250, 242, 0.08);
+      color: var(--paper);
+      font: inherit;
+      padding: 12px 14px;
+      outline: none;
+      transition: border 0.18s ease, background 0.18s ease;
+    }
+
+    .field input:focus,
+    .field select:focus {
+      border-color: rgba(255, 250, 242, 0.48);
+      background: rgba(255, 250, 242, 0.12);
+    }
+
+    .field input::placeholder { color: rgba(255, 250, 242, 0.42); }
+    .field select option { color: var(--ink); }
+
+    .submit-light {
+      width: 100%;
+      background: var(--paper);
+      color: var(--forest);
+      box-shadow: none;
+      margin-top: 4px;
+    }
+
+    .form-note {
+      color: rgba(255, 250, 242, 0.54) !important;
+      font-size: 0.78rem;
+      margin-top: 12px;
+      margin-bottom: 0 !important;
+    }
+
+    .closing { padding: 28px 0 96px; }
+
+    .closing-box {
+      text-align: center;
+      border-radius: var(--radius-xl);
+      padding: 62px 28px;
+      background:
+        linear-gradient(135deg, rgba(255, 250, 242, 0.84), rgba(216, 231, 214, 0.72));
+      border: 1px solid rgba(20, 32, 28, 0.1);
+    }
+
+    .closing-box h2 { max-width: 780px; margin: 0 auto 16px; }
+    .closing-box p { color: var(--muted); max-width: 660px; margin: 0 auto 28px; font-size: 1.08rem; }
+
+    .footer {
+      border-top: 1px solid rgba(20, 32, 28, 0.09);
+      padding: 30px 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .footer-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .disclaimer { max-width: 960px; font-size: 0.8rem; color: #75817d; }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.75s ease, transform 0.75s ease;
+    }
+
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @keyframes riseIn {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes cardFloat {
+      from { transform: translateY(0) rotate(-0.4deg); }
+      to { transform: translateY(-10px) rotate(0.4deg); }
+    }
+
+    @keyframes floatOrb {
+      from { transform: translate3d(0, 0, 0) scale(1); }
+      to { transform: translate3d(-28px, 22px, 0) scale(1.06); }
+    }
+
+    @media (max-width: 960px) {
+      .nav-links { display: none; }
+      .hero { padding-top: 64px; }
+      .hero-grid, .story-grid, .pilot-card { grid-template-columns: 1fr; }
+      .cards { grid-template-columns: 1fr; }
+      .visual-inner { min-height: 480px; }
+    }
+
+    @media (max-width: 580px) {
+      .container { width: min(100% - 28px, 1140px); }
+      .hero-actions { align-items: stretch; }
+      .btn { width: 100%; }
+      .mini-dashboard { position: relative; margin-top: 34px; }
+      .visual-inner { min-height: 460px; }
+      .program-label { margin-bottom: 0; }
+      h1 { font-size: 3.65rem; }
+      .pilot-copy, .form-card { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="grain"></div>
+  <div class="page">
+    <nav class="nav">
+      <div class="container nav-inner">
+        <a href="#top" class="brand" aria-label="LivyFit home">
+          <span class="brand-mark">L</span>
+          <span>LivyFit <small>Partner Program</small></span>
+        </a>
+        <div class="nav-links">
+          <a href="#model">Model</a>
+          <a href="#flow">Flow</a>
+          <a href="#pilot">Pilot</a>
+        </div>
+        <a class="btn btn-primary" href="#apply">Start a pilot</a>
+      </div>
+    </nav>
+
+    <main id="top">
+      <section class="hero">
+        <div class="container hero-grid">
+          <div>
+            <div class="eyebrow">For fitness communities</div>
+            <h1>Bring longevity into the gym, starting with <span class="accent-word">weight loss</span>.</h1>
+            <p class="hero-copy">
+              LivyFit gives gyms a simple way to offer medically guided weight-loss and longevity support to members, without becoming a medical practice.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#apply">Explore the pilot</a>
+              <a class="btn btn-light" href="#model">How the model works</a>
+            </div>
+            <div class="under-note">
+              <span>One location</span>
+              <span>Thirty-day test</span>
+              <span>Clear partner economics</span>
+            </div>
+          </div>
+
+          <aside class="visual-card" aria-label="LivyFit pilot card">
+            <div class="visual-inner">
+              <div class="program-label">LivyFit Pilot</div>
+              <div>
+                <div class="visual-title">The missing layer between fitness and longevity.</div>
+                <p class="visual-copy">
+                  Fitness stays with the gym. Clinical pathways, labs, pharmacy coordination, and care routing stay with Livy.
+                </p>
+              </div>
+              <div class="mini-dashboard">
+                <div class="mini-metric">
+                  <strong>01</strong>
+                  <span>1 gym</span>
+                </div>
+                <div class="mini-metric">
+                  <strong>30</strong>
+                  <span>30-day pilot</span>
+                </div>
+                <div class="mini-metric">
+                  <strong>$</strong>
+                  <span>revenue share</span>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section reveal" id="model">
+        <div class="container">
+          <div class="section-head">
+            <div class="kicker">The entry wedge</div>
+            <h2>Most gyms already own the relationship. They just need the right wellness layer.</h2>
+            <p class="lead">
+              Members ask trainers about weight loss, energy, hormones, recovery, and supplements every day. LivyFit creates a clean handoff from fitness intent to medically guided support.
+            </p>
+          </div>
+
+          <div class="cards">
+            <article class="card">
+              <div class="card-icon">01</div>
+              <h3>Member demand is already present</h3>
+              <p>Weight loss is one of the clearest reasons people join gyms, hire trainers, and stay accountable.</p>
+            </article>
+            <article class="card">
+              <div class="card-icon">02</div>
+              <h3>The gym keeps its role</h3>
+              <p>Gyms stay focused on fitness, coaching, and community. LivyFit supports the medical and longevity pathway.</p>
+            </article>
+            <article class="card">
+              <div class="card-icon">03</div>
+              <h3>The pilot creates proof</h3>
+              <p>A single-location test can show interest, consultations, conversions, and revenue before wider rollout.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="story-band reveal" id="flow">
+        <div class="container story-grid">
+          <div class="story-box">
+            <div class="kicker">What LivyFit handles</div>
+            <h2>Built as a partner layer, not another gym program.</h2>
+            <p>
+              The experience is designed to feel natural inside a fitness community: a trainer referral, a QR code, a short intake, and a guided next step. Behind the scenes, Livy coordinates the clinical and operational pieces.
+            </p>
+          </div>
+
+          <div class="path">
+            <div class="path-item">
+              <div class="path-num">1</div>
+              <div>
+                <h3>Gym introduces the offer</h3>
+                <p>Via trainer referrals, transformation challenges, in-gym signage, email, or member events.</p>
+              </div>
+            </div>
+            <div class="path-item">
+              <div class="path-num">2</div>
+              <div>
+                <h3>Member completes a guided intake</h3>
+                <p>LivyFit captures goals, basic history, and interest areas before routing the member forward.</p>
+              </div>
+            </div>
+            <div class="path-item">
+              <div class="path-num">3</div>
+              <div>
+                <h3>Licensed providers review eligibility</h3>
+                <p>Medical decisions stay with qualified providers through Livy’s telehealth partner network.</p>
+              </div>
+            </div>
+            <div class="path-item">
+              <div class="path-num">4</div>
+              <div>
+                <h3>Partner performance is tracked</h3>
+                <p>The pilot measures lead flow, consultations, conversions, and partner revenue.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="pilot reveal" id="pilot">
+        <div class="container pilot-card">
+          <div class="pilot-copy">
+            <div class="kicker">The first test</div>
+            <h2>One gym. One offer. One measurable pilot.</h2>
+            <p class="lead">
+              The initial pilot is intentionally narrow: weight-loss and longevity support for members at one fitness location. The goal is not to launch everything. The goal is to learn what converts.
+            </p>
+            <div class="pilot-points">
+              <div class="pilot-point">Partner landing page tailored to the gym</div>
+              <div class="pilot-point">Trainer referral script and member email copy</div>
+              <div class="pilot-point">QR code for front desk, posters, and events</div>
+              <div class="pilot-point">Simple weekly performance report</div>
+              <div class="pilot-point">Revenue-share discussion after initial validation</div>
+            </div>
+          </div>
+
+          <form class="form-card" id="apply" onsubmit="handleSubmit(event)">
+            <h3>Start with a partner conversation.</h3>
+            <p>For gym owners, studio operators, and wellness partners exploring a LivyFit pilot.</p>
+
+            <div class="field">
+              <label for="name">Name</label>
+              <input id="name" name="name" type="text" placeholder="Your name" required />
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" placeholder="you@company.com" required />
+            </div>
+            <div class="field">
+              <label for="company">Gym or studio</label>
+              <input id="company" name="company" type="text" placeholder="Company name" required />
+            </div>
+            <div class="field">
+              <label for="locations">Locations</label>
+              <select id="locations" name="locations" required>
+                <option value="">Select one</option>
+                <option>1 location</option>
+                <option>2–5 locations</option>
+                <option>6–20 locations</option>
+                <option>20+ locations</option>
+              </select>
+            </div>
+            <button class="btn submit-light" type="submit">Request pilot details</button>
+            <p class="form-note" id="formNote">Demo form. Connect this to HubSpot, Airtable, Google Sheets, or email before launch.</p>
+          </form>
+        </div>
+      </section>
+
+      <section class="closing reveal">
+        <div class="container closing-box">
+          <h2>LivyFit helps fitness communities become the front door to longevity.</h2>
+          <p>
+            Weight loss is the first wedge. Over time, the same partner model can expand into labs, supplements, hormone health, recovery, and member-only wellness benefits.
+          </p>
+          <a class="btn btn-primary" href="#apply">Explore a pilot</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-row">
+          <strong>LivyFit Partner Program</strong>
+        </div>
+        <p class="disclaimer">
+          LivyFit does not diagnose, prescribe, or provide medical advice through this website. Treatment eligibility, prescriptions, and clinical decisions are handled by licensed medical providers through appropriate partner networks.
+        </p>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add("visible");
+      });
+    }, { threshold: 0.14 });
+
+    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+
+    function handleSubmit(event) {
+      event.preventDefault();
+      const note = document.getElementById("formNote");
+      note.textContent = "Thanks. This demo form is ready to be connected to your preferred lead system.";
+    }
+  </script>
+</body>
+</html>
